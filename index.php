@@ -7,3 +7,4 @@ $david = new Archer('David');
 
 $jose->move('El Norte');
 $jose->attack($david);
+$david->attack($jose);

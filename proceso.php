@@ -43,6 +43,15 @@ abstract class Unit
     }
 
     abstract public function attack(Unit $opponent);
+
+    public function takeDamage($damage)
+    {
+        $this->SetHp($this->hp - $damage);
+
+        if ($this->GetHp() <= 0) {
+            $this->die();
+        }
+    }
 }
 
 class Soldier extends Unit
@@ -53,11 +62,12 @@ class Soldier extends Unit
     {
         Show("<p>{$this->GetName()} Ataca Con una Espada a {$opponent->GetName()} porque se comio la Luz");
 
-        $opponent->SetHp($opponent->GetHp() - $this->damage);
+        $opponent->takeDamage($this->damage);
+    }
 
-        if ($opponent->GetHp() <= 0) {
-            $opponent->die();
-        }
+    public function takeDamage($damage)
+    {
+        return parent::takeDamage($damage / 2);
     }
 }
 
@@ -69,11 +79,17 @@ class Archer extends Unit
     {
         Show("<p>{$this->GetName()} Dispara una Flecha a {$opponent->GetName()} porque se comio la Luz");
 
-        $opponent->SetHp($opponent->GetHp() - $this->damage);
-
-        if ($opponent->GetHp() <= 0) {
-            $opponent->die();
-        }
+        $opponent->takeDamage($this->damage);
     }   
+
+    public function takeDamage($damage)
+    {
+        if (rand(0,1 )){
+            return parent::takeDamage($damage);
+        }else {
+            Show("{$this->GetName()} Esquiva el Ataque Bruja");
+        }
+
+    }
 }
 
