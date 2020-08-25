@@ -40,23 +40,41 @@ abstract class Unit
     public function die()
     {
         Show("<p>{$this->name} Ha Muerto por Becerro");
+
+        exit();
     }
 
     abstract public function attack(Unit $opponent);
 
     public function takeDamage($damage)
     {
-        $this->SetHp($this->hp - $damage);
+        $this->SetHp($this->hp - $this->AbsorbDamage($damage));
 
         if ($this->GetHp() <= 0) {
             $this->die();
         }
     }
-}
 
+    protected function AbsorbDamage($damage)
+    {
+        return $damage;
+    }
+}
 class Soldier extends Unit
 {
     protected $damage = 20;
+    protected $armor;
+
+    public function __construct($name)
+    {
+        parent::__construct($name);
+    }
+
+    public function SetArmor(Armor $armor)
+    {
+        $this->armor = $armor;
+        Show("{$this->GetName()} Obtiene una Armadura en medio de la Batalla");
+    }
 
     public function attack(Unit $opponent)
     {
@@ -65,31 +83,73 @@ class Soldier extends Unit
         $opponent->takeDamage($this->damage);
     }
 
-    public function takeDamage($damage)
+    protected function AbsorbDamage($damage)
     {
-        return parent::takeDamage($damage / 2);
+        if ($this->armor) {
+            $damage = $this->armor->AbsorbDamage($damage);
+        }
+
+        return $damage;
     }
 }
-
 class Archer extends Unit
 {
     protected $damage = 20;
+    protected $armor;
+
+    public function __construct($name)
+    {
+        parent::__construct($name);
+    }
+
+    public function SetArmor(Armor $armor)
+    {
+        $this->armor = $armor;
+        Show("{$this->GetName()} Obtiene una Armadura en medio de la Batalla");
+    }
 
     public function attack(Unit $opponent)
     {
         Show("<p>{$this->GetName()} Dispara una Flecha a {$opponent->GetName()} porque se comio la Luz");
 
         $opponent->takeDamage($this->damage);
-    }   
-
-    public function takeDamage($damage)
+    } 
+    
+    protected function AbsorbDamage($damage)
     {
-        if (rand(0,1 )){
-            return parent::takeDamage($damage);
-        }else {
-            Show("{$this->GetName()} Esquiva el Ataque Bruja");
+        if ($this->armor) {
+            $damage = $this->armor->AbsorbDamage($damage);
         }
 
+        return $damage;
     }
 }
 
+interface Armor
+{
+    public function AbsorbDamage($damage);
+}
+
+class BronceArmor implements Armor
+{
+    public function AbsorbDamage($damage)
+    {
+        return $damage / 2;
+    }
+}
+
+class SilverArmor implements Armor
+{
+    public function AbsorbDamage($damage)
+    {
+        return $damage / 3;
+    }
+}
+
+class GoldArmor implements Armor
+{
+    public function AbsorbDamage($damage)
+    {
+        return $damage / 4;
+    }
+}
