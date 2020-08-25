@@ -1,5 +1,8 @@
 <?php
 
+namespace Styde;
+
+use Warcraft\Armor;
 class Archer extends Unit
 {
     protected $damage = 20;
