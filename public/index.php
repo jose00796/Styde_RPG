@@ -22,8 +22,8 @@ $david = new Archer('David');
 
 $jose->attack($david);
 $david->attack($jose);
-$david->SetArmor(new BronceArmor);
-$jose->SetArmor(new GoldArmor);
+$david->SetArmor(new Armors\BronceArmor);
+$jose->SetArmor(new Armors\GoldArmor);
 $david->attack($jose);
 $jose->attack($david);
 $jose->attack($david);

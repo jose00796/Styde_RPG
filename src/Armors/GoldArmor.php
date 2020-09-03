@@ -1,8 +1,9 @@
 <?php
 
-namespace Styde;
+namespace Styde\Armors;
 
-//use Warcraft\Armor;
+use Styde\Armor;
+
 class GoldArmor implements Armor
 {
     public function AbsorbDamage($damage)
