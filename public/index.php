@@ -3,10 +3,10 @@
 
 namespace Styde;
 
-require_once "vendor\Armor.php";
-require_once "helpers.php";
+require_once "../vendor/autoload.php";
+require_once "../src/helpers.php";
 
-spl_autoload_register(function($classname){
+/*spl_autoload_register(function($classname){
     if (strpos($classname, 'Styde\\') === 0) {
        
         $classname = str_replace('Styde\\', '', $classname);
@@ -15,7 +15,7 @@ spl_autoload_register(function($classname){
             require "src/$classname.php";
         }
     }        
-});
+});*/
 
 $jose = new Soldier('Jose');
 $david = new Archer('David');

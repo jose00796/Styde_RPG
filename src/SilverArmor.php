@@ -2,7 +2,7 @@
 
 namespace Styde;
 
-use Warcraft\Armor;
+//use Warcraft\Armor;
 class SilverArmor implements Armor
 {
     public function AbsorbDamage($damage)
